@@ -12,9 +12,9 @@ https://cloudbysundar.shop
 
 ## Architecture
 
-Internet → Custom Domain → Application Load Balancer (HTTPS) → EC2 Instance (WordPress) → Amazon RDS MySQL
+Internet → Custom Domain → Application Load Balancer (HTTPS) → Amazon EC2 (WordPress) → Amazon RDS MySQL
 
-A secondary DR database instance was also created to demonstrate disaster recovery planning.
+A secondary DR database instance was also created to support disaster recovery planning and documentation.
 
 ## AWS Services Used
 
@@ -25,27 +25,43 @@ A secondary DR database instance was also created to demonstrate disaster recove
 * Amazon VPC
 * Security Groups
 * IAM
-* CloudWatch (Basic Monitoring)
 * GoDaddy Domain Management
 
 ## Features Implemented
 
 * WordPress deployment on Amazon EC2
-* Amazon RDS MySQL database integration
+* Amazon RDS MySQL integration
 * Custom domain configuration
 * SSL/TLS certificate implementation using ACM
-* HTTPS access enabled
+* HTTPS enabled website access
 * HTTP to HTTPS redirection
 * Application Load Balancer configuration
-* Secure database connectivity
-* Disaster Recovery database setup
-* Security Group configuration and access control
+* Secure connectivity between WordPress and RDS
+* Disaster Recovery (DR) database setup
+* Linux cron-based backup automation
+
+## Backup Automation
+
+As part of the Disaster Recovery strategy, automated backups were implemented using Linux Cron.
+
+### Cron Job Configuration
+
+```bash
+0 2 * * * tar -czf /home/ec2-user/backups/wordpress-$(date +\%F).tar.gz /var/www/html
+```
+
+### Backup Process
+
+* Runs daily at 2:00 AM
+* Compresses the WordPress web directory
+* Stores backup archives in `/home/ec2-user/backups`
+* Supports recovery of website files in case of failure
 
 ## Deployment Steps
 
 ### 1. Infrastructure Setup
-	
-* Created AWS networking components
+
+* Created VPC networking environment
 * Configured Security Groups
 * Launched Amazon EC2 instance
 
@@ -80,6 +96,7 @@ A secondary DR database instance was also created to demonstrate disaster recove
 ### 6. Disaster Recovery Planning
 
 * Created DR database instance
+* Implemented automated backup scheduling using Cron
 * Documented recovery architecture
 
 ## Screenshots
@@ -90,8 +107,8 @@ Project screenshots are available in the screenshots folder.
 
 * HTTPS enforced using ACM certificate
 * Security Group-based access control
-* Private database access through AWS networking
 * SSL/TLS encryption for web traffic
+* Restricted SSH access using security groups
 
 ## Skills Demonstrated
 
@@ -103,19 +120,19 @@ Project screenshots are available in the screenshots folder.
 * SSL/TLS Configuration
 * DNS Management
 * Disaster Recovery Planning
+* Backup Automation
 * Cloud Security Fundamentals
 
 ## Future Enhancements
 
+* Amazon S3 backup storage
 * Auto Scaling Group
-* Route 53 Integration
-* CloudWatch Alarms
-* Automated Backups
+* Route 53 integration
+* CloudWatch monitoring and alarms
 * Infrastructure as Code using Terraform
 * CI/CD Pipeline using GitHub Actions
 
 ## Author
 
-Sundar Muthukumarasamy
+Sundar Ayyappan M
 AWS & DevOps Engineer
-
